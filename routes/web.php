@@ -89,6 +89,8 @@ Route::post('/api/penalties','PenaltyController@api_get_penalties');
 
 Route::post('/api/verifyLogin','PoliceController@verifyLogin');
 
+Route::post('/api/get_penalty_provisional','PenaltyController@api_get_provisional_penalty');
+
 
 
 Route::get('/penalties','PenaltyController@index');

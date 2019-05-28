@@ -26,9 +26,10 @@ class BusAdminController extends Controller
         $bus_admin = Bus_admin::with('company')
                 ->where('id',Auth::user()->id)
                 ->first();
+                
+        
         $company_id = $bus_admin->company->id;
         $company_name = $bus_admin->company->company_name;
-
         $av_speeds = (new LocationController())->getTotalAverageSpeed($company_id);
         $overall_av_speed = number_format($av_speeds["overall"],2);
         $today_av_speed = number_format($av_speeds["today"],2);
@@ -37,6 +38,7 @@ class BusAdminController extends Controller
 
         $buseswithHighestAvgSpeeds = $this->getBusesWithHighestAvgSpeed($company_id);
         $busesWithMostPenalties = $this->getBusesWithMostPenalties($company_id);
+        $areasWithMostPenalties = $this->getAreasWithMostPenalties($company_id);
 
         $year = Carbon::now()->year;
         $month = Carbon::now()->month;
@@ -49,8 +51,8 @@ class BusAdminController extends Controller
             $line_sum_penalties[] = (!is_null($this->getLineTotalPenalties($year,$month_val,$company_id)->total)) ? $this->getLineTotalPenalties($year,$month_val,$company_id)->total : 0;                             
         }
 
-        //return response()->json($line_sum_penalties);
-        return view('bus_admin.dashboard',compact('company_name','line_average_speeds','line_sum_penalties','months','buseswithHighestAvgSpeeds','busesWithMostPenalties'));
+        //return response()->json($av_speeds);
+        return view('bus_admin.index',compact('company_name','line_average_speeds','line_sum_penalties','overall_av_speed','today_av_speed','total_penalties','total_buses','months','buseswithHighestAvgSpeeds','busesWithMostPenalties','areasWithMostPenalties'));
     }
 
     /**
@@ -158,6 +160,25 @@ class BusAdminController extends Controller
                 ->groupby('buses.id')
                 ->orderby('avg','desc')
                 ->take('3')
+                ->get();
+
+        return $bus_companies;
+    }
+
+    private function getAreasWithMostPenalties($company_id)
+    {
+        $bus_companies = Bus_company::leftjoin('buses', 'bus_companies.id', '=', 'buses.bus_company_id')
+                ->leftjoin('location_finders', 'buses.id', '=', 'location_finders.bus_id')
+                ->leftjoin('locations', 'locations.location_finder_id', '=', 'location_finders.id')
+                ->leftjoin('penalties', 'penalties.location_id', '=', 'locations.id')
+                ->select('place',DB::raw('COUNT(penalties.id) as total_penalties'), DB::raw('AVG(locations.speed) as avg'))
+              //  ->whereYear('locations.created_at',$year)
+                //->whereMonth('locations.created_at',$month)
+                ->where('bus_companies.id',$company_id)
+                ->groupby('penalties.place')
+                ->orderby('total_penalties','desc')
+                ->orderby('avg','desc')
+                ->take('2')
                 ->get();
 
         return $bus_companies;

@@ -4,68 +4,69 @@
 
 <div class="content-wrapper pl-2 pt-2">
     <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
+    <div class="row ">
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">AVERAGE SPEED</span>
-                <span class="info-box-number">
-                  300                 
-                  <small>km/hr</small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">AVERAGE SPEED</span>
+                        <span class="info-box-number">
+                            {{$overall_av_speed}}
+                            <small>km/hr</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">PENALTIES</span>
-                <span class="info-box-number">200</span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">AVERAGE SPEED <span class="text-secondary">(Today)</span>
+                        <span class="info-box-number">
+                            {{ $today_av_speed }}
+                            <small>km/hr</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
 
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">NUMBER OF VEHICLES</span>
-                <span class="info-box-number">760</span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">PENALTIES</span>
+                        <span class="info-box-number">{{$total_penalties}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+            <!-- /.col -->
 
-              <div class="info-box-content">
-                <span class="info-box-text">OTHER</span>
-                <span class="info-box-number">2,000</span>
-              </div>
-              <!-- /.info-box-content -->
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">NUMBER OF VEHICLES</span>
+                        <span class="info-box-number">{{$total_buses}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+            
         </div>
-
         <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -132,30 +133,21 @@
                                     <h3 class="card-title">Areas with overspeeding</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-striped table-bordered table-sm">
+                                <table class="table table-striped table-bordered table-sm">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Place</th>
+                                                <th scope="col">Area</th>
+                                                <th scope="col">Number of penalties</th>
                                                 <th scope="col">Average Speed</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                            </tr>
+                                            @foreach($areasWithMostPenalties as $area)
+                                                <tr>
+                                                    <td>{{$area->place}}</td><td>{{$area->total_penalties}}</td><td>{{$area->avg}}</td>
+                                                </tr>
+                                           @endforeach
                                         </tbody>
                                     </table>
                                 </div>

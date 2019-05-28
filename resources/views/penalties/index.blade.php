@@ -14,10 +14,12 @@
                     <th>Number Plate</th>
                     <th>Assigned By</th>
                     <th>Date of Assignment</th>
-                    <th>Location</th>
+                    <th>Place</th>
+                    <th>Speed</th>
                     <th>Status</th>
                     <th>Cleared By</th>
                     <th>Date of Clearance</th>
+                    <th>Date of Creation</th>
                     <th></th>
                 </tr>
             </thead>
@@ -28,18 +30,22 @@
                 <td>{{$penalty->locationFinder->bus->bus_company->company_name}}</td>
                 <td>{{$penalty->locationFinder->bus->number_plate}}</td>
                 <td>{{$penalty->assigner->user->name}}</td>
-                <td>{{$penalty->created_at->toDayDateTimeString()}}</td><td>Kamwokya</td>
+                <td>{{$penalty->assigned_date->toDayDateTimeString()}}</td>
+                <td>{{$penalty->place}}</td>
+                <td>{{$penalty->speed}}</td>
                 <td>{{$penalty->status}}</td>
-                <td>@if ($penalty->status != 'pending')
+                <td>@if ($penalty->status != 'pending' && $penalty->status != 'provisional')
                   {{$penalty->clearer->user->name}}
                   @endif
                 </td>
-                <td>@if ($penalty->status != 'pending')
+                <td>
+                  @if ($penalty->status != 'pending' && $penalty->status != 'provisional')
                   {{$penalty->cleared_date->toDayDateTimeString()}}
                   @endif
                 </td>
+                <td>{{$penalty->created_at->toDayDateTimeString()}}</td>
                 <td>
-                  @if ($penalty->status == 'pending')
+                  @if ($penalty->status == 'pending' && Auth::user()->category == 'police')
                   <form method="post" action="/penalty_clear">
                     {{csrf_field()}}
                     <input type="hidden" value="{{$penalty->id}}" name="penalty_id"/>
@@ -58,10 +64,12 @@
                     <th>Number Plate</th>
                     <th>Assigned By</th>
                     <th>Date of Assignment</th>
-                    <th>Location</th>
+                    <th>Place</th>
+                    <th>Speed</th>
                     <th>Status</th>
                     <th>Cleared By</th>
                     <th>Date of Clearance</th>
+                    <th>Date of Creation</th>
                     <th></th>
                 </tr>
             </tfoot>

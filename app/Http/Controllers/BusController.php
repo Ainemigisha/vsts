@@ -7,6 +7,7 @@ use App\Bus;
 use App\Penalty;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Auth;
 
 class BusController extends Controller
 {
@@ -17,16 +18,29 @@ class BusController extends Controller
      */
     public function index()
     {
-        $buses = Bus::join('bus_companies', 'bus_companies.id', '=', 'buses.bus_company_id')
+        if (Auth::user()->category == "bus_admin") {
+            $company_id = Auth::user()->id;  
+            $buses = Bus::join('bus_companies', 'bus_companies.id', '=', 'buses.bus_company_id')
                 ->leftjoin('location_finders', 'buses.id', '=', 'location_finders.bus_id')
                 ->leftjoin('locations', 'locations.location_finder_id', '=', 'location_finders.id')
                 ->leftjoin('penalties', 'penalties.location_id', '=', 'locations.id')
                 ->select('buses.id','number_plate','bus_companies.company_name',DB::raw('COUNT(penalties.id) as total_penalties'),DB::raw('AVG(locations.speed) as avg_speed'))
+                ->where('bus_companies.id',$company_id)
                 ->groupby('buses.id')
                 ->orderby('buses.updated_at','DESC')
-                ->get();
-
-        
+                ->get(); 
+      }else{
+        $buses = Bus::join('bus_companies', 'bus_companies.id', '=', 'buses.bus_company_id')
+        ->leftjoin('location_finders', 'buses.id', '=', 'location_finders.bus_id')
+        ->leftjoin('locations', 'locations.location_finder_id', '=', 'location_finders.id')
+        ->leftjoin('penalties', 'penalties.location_id', '=', 'locations.id')
+        ->select('buses.id','number_plate','bus_companies.company_name',DB::raw('COUNT(penalties.id) as total_penalties'),DB::raw('AVG(locations.speed) as avg_speed'))
+        ->groupby('buses.id')
+        ->orderby('buses.updated_at','DESC')
+        ->get();
+      }
+     
+     
         return view('buses.index',compact('buses'));
     }
 
@@ -158,9 +172,18 @@ class BusController extends Controller
         return $buses;
     }
 
-    public function getTotalBuses()
+    public function getTotalBuses($company_id = null)
     {
-       $totalBuses = Bus::sum('id');
+        if ($company_id == null) {
+            $totalBuses = Bus::count('id');
+        }else{
+            $totalBuses = Bus::with('bus_company')
+                ->whereHas('bus_company', function($query) use ($company_id) {
+                    $query->where('id',$company_id);
+                    })
+                ->count('id');
+        }
+       
 
        return $totalBuses;
     }

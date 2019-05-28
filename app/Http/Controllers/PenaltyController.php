@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Penalty;
 use Illuminate\Http\Request;
 use App\Police;
+use Auth;
 
 class PenaltyController extends Controller
 {
@@ -16,10 +17,22 @@ class PenaltyController extends Controller
      */
     public function index()
     {
-        $penalties = Penalty::with('locationFinder.bus.bus_company','assigner.user','clearer.user')
-            
-            ->orderBy('created_at','desc')
-            ->get();
+        if (Auth::user()->category == "bus_admin") {
+            $company_id = Auth::user()->id; 
+            $penalties = Penalty::with('locationFinder.bus.bus_company','assigner.user','clearer.user')
+                ->whereHas('locationFinder.bus.bus_company', function($query) use ($company_id) {
+                    $query->where('id',$company_id);
+                })
+                ->orderBy('created_at','desc')
+                ->get();
+        }else{
+            $penalties = Penalty::with('locationFinder.bus.bus_company','assigner.user','clearer.user')
+                
+                ->orderBy('created_at','desc')
+                ->get();
+        }
+
+        
      
          
         return view('penalties.index',compact('penalties'));
@@ -139,12 +152,31 @@ class PenaltyController extends Controller
 
         return response()->json($penalty);
 
+    }
+
+    public function api_get_provisional_penalty(Request $request)
+    {
+        $penalty = Penalty::where('location_finder_id',$request->id)
+                ->where('status','provisional')
+                ->first();
+
+        return response()->json($penalty);
 
     }
 
-    public function getTotalPenalties()
+    public function getTotalPenalties($company_id = null)
     {
-       $totalPenalties = Penalty::sum('id');
+        
+        if ($company_id == null) {
+            $totalPenalties = Penalty::count('id');
+        }else{
+            $totalPenalties = Penalty::with('locationFinder.bus.bus_company')
+                ->whereHas('locationFinder.bus.bus_company', function($query) use ($company_id) {
+                    $query->where('id',$company_id);
+                    })
+            ->count('id');
+        }
+       
        return $totalPenalties;
     }
 }

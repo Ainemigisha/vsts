@@ -106,33 +106,24 @@
                         <div class="col-lg-4 ">
                             <div class="card border-transparent">
                                 <div class="card-header">
-                                    <h3 class="card-title">Areas with overspeeding</h3>
+                                    <h3 class="card-title">Areas with most over penalties</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-striped table-bordered table-sm">
+                                <table class="table table-striped table-bordered table-sm">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Place</th>
+                                                <th scope="col">Area</th>
+                                                <th scope="col">Number of penalties</th>
                                                 <th scope="col">Average Speed</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                            </tr>
+                                            @foreach($areasWithMostPenalties as $area)
+                                                <tr>
+                                                    <td>{{$area->place}}</td><td>{{$area->total_penalties}}</td><td>{{$area->avg}}</td>
+                                                </tr>
+                                           @endforeach
                                         </tbody>
                                     </table>
                                 </div>

@@ -125,7 +125,7 @@ var months = @json($months);
 Highcharts.chart('averageLine', {
 
 title: {
-    text: 'Average Speeds for bus companies per month'
+    text: 'Average Speeds for bus'+bus_name+' per month'
 },
 xAxis: {
              categories: Object.keys(months),

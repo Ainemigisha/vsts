@@ -42,12 +42,12 @@
               </li>
               @endif
               @if(Auth::user()->category == 'system_admin')
-              <li class="nav-item">
+              <!--<li class="nav-item">
                 <a href="system_admin" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
-              </li>
+              </li>-->
               @endif
               @if(Auth::user()->category == 'public' || Auth::user()->category == 'police' || Auth::user()->category == 'bus_admin' || Auth::user()->category == 'system_admin')
               <li class="nav-item">
@@ -57,30 +57,36 @@
                 </a>
               </li>
               @endif
+              @if(Auth::user()->category == 'bus_admin')
               <li class="nav-item">
                 <a href="/live_feed" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Live grid</p>
                 </a>
               </li>
+              @endif
+              @if(Auth::user()->category == 'bus_admin' || Auth::user()->category == 'police' || Auth::user()->category == 'system_admin')
               <li class="nav-item">
                 <a href="/buses" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Buses</p>
                 </a>
-
+              </li>
               <li class="nav-item">
                 <a href="/penalties" class="nav-link ">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Penalties</p>
                 </a>
               </li>
+              @endif
+              @if(Auth::user()->category == 'system_admin')
               <li class="nav-item">
                 <a href="/bus_details_form" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Add Bus details </p>
                 </a>
               </li>
+              
               <li class="nav-item">
                 <a href="/devices" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
@@ -93,6 +99,7 @@
                   <p>Location Finders</p>
                 </a>
               </li>
+              @endif
               <li class="nav-item">
                 <a href="/logout" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>

@@ -50,11 +50,12 @@ class PublicController extends Controller
         $pie_av_speeds = $this->getPieAverageSpeeds('All',$year,'All');
         $companieswithHighestAvgSpeeds = $this->getCompaniesWithHighestAvgSpeed();
         $companiesWithMostPenalties = $this->getCompaniesWithMostPenalties();
+        $areasWithMostPenalties = $this->getAreasWithMostPenalties();
 
         
 
   
-       return view('public.index',compact('line_average_speeds','overall_av_speed','today_av_speed','total_penalties','total_buses','pie_av_speeds','months','companieswithHighestAvgSpeeds','companiesWithMostPenalties'));
+       return view('public.index',compact('line_average_speeds','overall_av_speed','today_av_speed','total_penalties','total_buses','pie_av_speeds','months','companieswithHighestAvgSpeeds','companiesWithMostPenalties','areasWithMostPenalties'));
     }
 
     /**
@@ -162,6 +163,24 @@ class PublicController extends Controller
                 ->groupby('bus_companies.id')
                 ->orderby('avg','desc')
                 ->take('3')
+                ->get();
+
+        return $bus_companies;
+    }
+
+    private function getAreasWithMostPenalties()
+    {
+        $bus_companies = Bus_company::leftjoin('buses', 'bus_companies.id', '=', 'buses.bus_company_id')
+                ->leftjoin('location_finders', 'buses.id', '=', 'location_finders.bus_id')
+                ->leftjoin('locations', 'locations.location_finder_id', '=', 'location_finders.id')
+                ->leftjoin('penalties', 'penalties.location_id', '=', 'locations.id')
+                ->select('place',DB::raw('COUNT(penalties.id) as total_penalties'), DB::raw('AVG(locations.speed) as avg'))
+              //  ->whereYear('locations.created_at',$year)
+                //->whereMonth('locations.created_at',$month)
+                ->groupby('penalties.place')
+                ->orderby('total_penalties','desc')
+                ->orderby('avg','desc')
+                ->take('2')
                 ->get();
 
         return $bus_companies;

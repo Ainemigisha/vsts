@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Penalty extends Model
 {
     //
-    protected $fillable = ['assigned_by','cleared_by','location_finder_id','cleared_date','status','latitude','longitude','speed','location_id','place'];
-    protected $dates = ['cleared_date'];
+    protected $fillable = ['assigned_by','cleared_by','location_finder_id','cleared_date','status','latitude','longitude','speed','location_id','place','assigned_date'];
+    protected $dates = ['cleared_date','assigned_date'];
 
     public function assigner()
     {

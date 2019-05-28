@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Location;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Penalty;
 
 class LocationController extends Controller
 {
@@ -143,12 +144,15 @@ class LocationController extends Controller
         $vicinity_locations = array();
         foreach($locations as $location){
             if ($this->getDistance($location->latitude,$location->longitude,$request->latitude,$request->longitude) <= 10) {
+                
                $vicinity_locations[] = $location;
             }
         }
 
         return response()->json($vicinity_locations);
     }
+
+    
 
     public function get_daily_average_speed(){
         $speeds=Location::daily_average_speed();
@@ -157,14 +161,25 @@ class LocationController extends Controller
     }
 
     public function getTotalAverageSpeed($company = null){
-        //if(isNull($company)){
+        if($company == null){
             $av_speed["overall"] = Location::avg('speed');
 
             $av_speed["today"] = Location::whereDate('created_at', Carbon::today())
                 ->avg('speed');
-        /*}else{
+        }else{
+            $av_speed["overall"] = Location::with('location_finder.bus.bus_company')
+                ->whereHas('location_finder.bus.bus_company', function($query) use ($company) {
+		            $query->where('id',$company);
+	                })
+                ->avg('speed');
 
-        }*/
+            $av_speed["today"] = Location::with('location_finder.bus.bus_company')
+                ->whereHas('location_finder.bus.bus_company', function($query) use ($company) {
+                    $query->where('id',$company);
+                    })
+                ->whereDate('created_at', Carbon::today())
+                ->avg('speed');
+        }
         
 
 
