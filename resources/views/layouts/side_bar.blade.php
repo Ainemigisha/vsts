@@ -27,7 +27,7 @@
             <ul class="nav nav-treeview">
               @if(Auth::user()->category == 'police')
               <li class="nav-item">
-                <a href="police_admin"  class="nav-link">
+                <a href="/police_admin"  class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
@@ -35,7 +35,7 @@
               @endif
               @if(Auth::user()->category == 'bus_admin')
               <li class="nav-item">
-                <a href="bus_admin" class="nav-link">
+                <a href="/bus_admin" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
@@ -57,7 +57,7 @@
                 </a>
               </li>
               @endif
-              @if(Auth::user()->category == 'bus_admin')
+              @if(Auth::user()->category == 'bus_admin' || Auth::user()->category == 'police')
               <li class="nav-item">
                 <a href="/live_feed" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
@@ -81,6 +81,12 @@
               @endif
               @if(Auth::user()->category == 'system_admin')
               <li class="nav-item">
+                <a href="/companies_form" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Bus companies </p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="/bus_details_form" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Add Bus details </p>
@@ -97,6 +103,12 @@
                 <a href="/location_finders" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Location Finders</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/users" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Users </p>
                 </a>
               </li>
               @endif

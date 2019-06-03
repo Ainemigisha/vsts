@@ -8,6 +8,11 @@ class Bus_admin extends Model
 {
     public function company()
 	{
-		return $this->belongsTo('App\Bus_company','company_id','id');
+		return $this->hasOne('App\Bus_company','id','company_id');
+	}
+
+	public function user()
+	{
+		return $this->belongsTo('App\User','id','id');
 	}
 }

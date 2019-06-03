@@ -44,6 +44,6 @@ class User extends Authenticatable
     
     public function bus_admin()
 	{
-		return $this->hasMany('App\Bus_admin','id','id');
+		return $this->hasOne('App\Bus_admin','id','id');
 	}
 }

@@ -44,7 +44,7 @@ class PublicController extends Controller
         $av_speeds = (new LocationController())->getTotalAverageSpeed();
         $overall_av_speed = number_format($av_speeds["overall"],2);
         $today_av_speed = number_format($av_speeds["today"],2);
-        $total_penalties = (new PenaltyController())->getTotalPenalties();
+        $total_penalties = (new PenaltyController())->getTotalPenalties(null,null);
         $total_buses = (new BusController())->getTotalBuses();
 
         $pie_av_speeds = $this->getPieAverageSpeeds('All',$year,'All');

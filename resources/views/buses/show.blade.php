@@ -81,7 +81,7 @@
                     <h3 class="card-title">Penalties</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped table-bordered table-sm">
+                    <table id="example" class="table table-striped table-bordered table-sm">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Speed</th>
@@ -116,7 +116,11 @@
   </div>
             <!-- /.card -->
 @include('layouts.footer')
+<script src="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable();
+});
 
 var bus_name = "<?php echo $bus_profile->number_plate ?>";
 var line_average_speeds = @json($line_average_speeds);

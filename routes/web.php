@@ -67,6 +67,15 @@ Route::post('/add_bus','BusController@store');
 Route::get('/buses','BusController@index');
 
 
+Route::get('/companies_form','BusCompanyController@index');
+
+Route::post('/add_company','BusCompanyController@store');
+
+
+Route::get('/users','SystemAdminController@userIndex');
+
+Route::post('/user','SystemAdminController@createUser');
+
 
 Route::get('/speeds','LocationController@get_daily_average_speed');
 
@@ -95,7 +104,11 @@ Route::post('/api/get_penalty_provisional','PenaltyController@api_get_provisiona
 
 Route::get('/penalties','PenaltyController@index');
 
+Route::get('/penalties/{id}', 'PenaltyController@show');
+
 Route::post('/penalty_clear','PenaltyController@clear');
+
+Route::post('/penalty_reject','PenaltyController@reject');
 
 
 Route::get('/live_feed', function (){
@@ -103,7 +116,12 @@ Route::get('/live_feed', function (){
 });
 
 
-Route::get('/xml_feed', 'LocationController@displayGrid')->name('xml_feed');
+//Route::get('/xml_feed', 'LocationController@displayGrid')->name('xml_feed');
+
+
+
+
+Route::get('/xml_feed', 'LocationController@displayGrid');
 
 
 

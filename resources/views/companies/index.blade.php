@@ -19,24 +19,19 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="/add_location_finder" >
+              <form method="post" action="add_company">
                 {{csrf_field()}}
                 <div class="card-body">
-                <div class="form-group">
-                    <label >Bus number plate </label>
-                    <select id="num_plate" name="bus" class="form-control">
-                        <option selected>Choose...</option>
-                        @foreach($buses as $bus)
-                            <option value="{{$bus->id}}">{{$bus->number_plate}}</option>
-                        @endforeach
-                    </select>
+                  <div class="form-group">
+                    <label for="company">Company Name</label>
+                    <input type="text" name="company_name" class="form-control" id="company" >
                   </div>
                   <div class="form-group">
-                    <label >Device </label>
-                    <select id="device" name="device" class="form-control">
+                    <label >Bus administrator </label>
+                    <select id="admin_id" name="admin_id" class="form-control">
                         <option selected>Choose...</option>
-                        @foreach($devices as $device)
-                            <option value="{{$device->alphanumeric_string}}">{{$device->alphanumeric_string}}</option>
+                        @foreach($admins as $admin)
+                            <option value="{{$admin->id}}">{{$admin->name}}</option>
                         @endforeach
                     </select>
                   </div>
@@ -53,33 +48,24 @@
           <p><hr></p>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Location Finders</h3>
+                <h3 class="card-title">Bus Companies</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered">
                   <tr>
-                    <th>Number plate</th>
-                    <th>Device</th>
-                    <th>Created at</th>
+                    <th style="width: 200px">Company Name</th>
+                    <th >Administrator</th>
+                    <th >Created at</th>
                   </tr>
-                  @foreach($location_finders as $location_finder)
+                  @foreach($all_companies as $company)
                     <tr>
-                    <td>{{$location_finder->bus->number_plate}}</td><td>{{$location_finder->device->alphanumeric_string}}</td><td>{{$location_finder->created_at->toDayDateTimeString()}}</td>
+                        <td>{{$company->company_name}}</td> <td>{{$company->adminId->user->name}}</td><td>{{$company->created_at->toDayDateTimeString()}}</td>
                     </tr>
                   @endforeach
                 </table>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
+              
             </div>
             <!-- /.card -->
           </div>

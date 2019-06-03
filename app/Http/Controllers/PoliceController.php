@@ -40,8 +40,16 @@ class PoliceController extends Controller
 
         $pie_total_penalties = $this->getPieTotalPenalties('All',$year);
 
+        $total_penalties = (new PenaltyController())->getTotalPenalties();
+
+        $provisional_total_penalties = (new PenaltyController())->getTotalPenalties(null,"provisional");
+
+        $pending_total_penalties = (new PenaltyController())->getTotalPenalties(null,"pending");
+
+        $cleared_total_penalties = (new PenaltyController())->getTotalPenalties(null,"cleared");
+
         //return response()->json($penalties);
-        return view('police_admin.dashboard',compact('pie_total_penalties','line_total_penalties','months','penalties'));
+        return view('police_admin.dashboard',compact('pie_total_penalties','line_total_penalties','months','penalties','total_penalties','provisional_total_penalties','pending_total_penalties','cleared_total_penalties'));
     }
 
     /**

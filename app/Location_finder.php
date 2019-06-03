@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location_finder extends Model
 {
-    protected $fillable = ['bus_id','device_id','status','flag'];
+    protected $fillable = ['bus_id','device_id','status','flag','driver_name'];
 
     public function device()
 	{

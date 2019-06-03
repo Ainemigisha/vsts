@@ -9,66 +9,67 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper pl-2 pt-2">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
+      <div class="row ">
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">AVERAGE SPEED</span>
-                <span class="info-box-number">
-                 20         
-                  <small>km/hr</small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">TOTAL PENALTIES</span>
+                        <span class="info-box-number">
+                            {{$total_penalties}}
+                            <small>km/hr</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">PENALTIES</span>
-                <span class="info-box-number">200</span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">PROVISIONAL PENALTIES</span>
+                        <span class="info-box-number">
+                            {{ $provisional_total_penalties }}
+                            <small>km/hr</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"></span>
 
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">NUMBER OF VEHICLES</span>
-                <span class="info-box-number">760</span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">ASSIGNED PENALTIES</span>
+                        <span class="info-box-number">{{$pending_total_penalties}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+            <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">OTHER</span>
-                <span class="info-box-number">2,000</span>
-              </div>
-              <!-- /.info-box-content -->
+                    <div class="info-box-content">
+                        <span class="info-box-text">CLEARED PENALTIES</span>
+                        <span class="info-box-number">{{$cleared_total_penalties}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+            <!-- /.col -->
+
+            
         </div>
 
         <div class="row">
@@ -77,26 +78,7 @@
               <div class="card-header">
                 <h5 class="card-title">Statistics</h5>
 
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                  </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-wrench"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" class="dropdown-item">Action</a>
-                      <a href="#" class="dropdown-item">Another action</a>
-                      <a href="#" class="dropdown-item">Something else here</a>
-                      <a class="dropdown-divider"></a>
-                      <a href="#" class="dropdown-item">Separated link</a>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-tool" data-widget="remove">
-                    <i class="fa fa-times"></i>
-                  </button>
-                </div>
+                
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -139,15 +121,17 @@
                   <div class="table-responsive">
                   <table id="example" class=" display table table-striped table-bordered " >
                   <thead>
-                <tr>
+                  <tr>
                     <th>Company</th>
                     <th>Number Plate</th>
                     <th>Assigned By</th>
                     <th>Date of Assignment</th>
-                    <th>Location</th>
+                    <th>Place</th>
+                    <th>Speed</th>
                     <th>Status</th>
                     <th>Cleared By</th>
                     <th>Date of Clearance</th>
+                    <th>Date of Creation</th>
                     <th></th>
                 </tr>
             </thead>
@@ -157,19 +141,29 @@
               <tr>
                 <td>{{$penalty->locationFinder->bus->bus_company->company_name}}</td>
                 <td>{{$penalty->locationFinder->bus->number_plate}}</td>
+                @if ( $penalty->status != 'Provisional')
                 <td>{{$penalty->assigner->user->name}}</td>
-                <td>{{$penalty->created_at->toDayDateTimeString()}}</td><td>Kamwokya</td>
+                <td>{{$penalty->assigned_date->toDayDateTimeString()}}</td>
+                @else
+                <td></td>
+                <td></td>
+                @endif
+                
+                <td>{{$penalty->place}}</td>
+                <td>{{$penalty->speed}}</td>
                 <td>{{$penalty->status}}</td>
-                <td>@if ($penalty->status != 'pending')
+                <td>@if ($penalty->status != 'pending' && $penalty->status != 'provisional')
                   {{$penalty->clearer->user->name}}
                   @endif
                 </td>
-                <td>@if ($penalty->status != 'pending')
+                <td>
+                  @if ($penalty->status != 'pending' && $penalty->status != 'provisional')
                   {{$penalty->cleared_date->toDayDateTimeString()}}
                   @endif
                 </td>
+                <td>{{$penalty->created_at->toDayDateTimeString()}}</td>
                 <td>
-                  @if ($penalty->status == 'pending')
+                  @if ($penalty->status == 'pending' && Auth::user()->category == 'police')
                   <form method="post" action="/penalty_clear">
                     {{csrf_field()}}
                     <input type="hidden" value="{{$penalty->id}}" name="penalty_id"/>

@@ -7,6 +7,9 @@ use App\Location;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Penalty;
+use App\Location_finder;
+use App\Bus_admin;
+use Auth;
 
 class LocationController extends Controller
 {
@@ -44,21 +47,45 @@ class LocationController extends Controller
     {
         $date = Carbon::create($request->year,$request->mon,$request->dy,$request->hr,$request->mn,$request->sc,'UTC');
         $date->addHours(3);
-       // return response()->json($request);
 
 
         $lf_controller = new LocationFinderController();
         $location_finder_id = $lf_controller->getLocationFinder($request->device_id);
-
+        
        
-        $location = Location::create(
+        /*$location = Location::create(
             ['latitude'=>$request->latitude,
                 'longitude'=>$request->longitude,
                 'speed'=>$request->speed,
                 'timestamp'=>$date,
                 'location_finder_id'=>$location_finder_id
              ]
-        );
+        );*/
+
+        $location = new Location();
+        $location->latitude = $request->latitude;
+        $location->longitude = $request->longitude;
+        $location->speed = $request->speed;
+        $location->updated_at = $date;
+        $location->created_at = $date;
+        $location->location_finder_id = $location_finder_id;
+        $location->save();
+        
+        if($request->speedFlag == 1){
+            $penalty = Penalty::create([
+                'location_finder_id'=> $location_finder_id,
+                'location_id'=> $location->id,
+                'latitude'=> $request->latitude,
+                'longitude'=> $request->longitude,
+                'status'=>'Provisional',
+                'speed'=> $request->averageSpeed
+                
+            ]);
+
+            $finder = Location_finder::where('id', $location_finder_id)
+                ->update(['flag' => 1]);
+        }
+        
         return response()->json($location);
     }
 
@@ -110,7 +137,28 @@ class LocationController extends Controller
     public function displayGrid(){
 
         //$locations = DB::select("SELECT MAX(updated_at),location_finder_id FROM locations GROUP BY location_finder_id ");
-        $locations = Location::whereIn('locations.updated_at', function($query)
+        if (Auth::user()->category == "bus_admin") {
+            $company_id = Bus_admin::where('id',Auth::user()->id)
+                ->pluck('company_id')
+                ->first(); 
+
+            $locations = Location::with('location_finder.bus.bus_company')
+                ->whereIn('locations.updated_at', function($query)
+                    {
+                        $query->select(DB::raw('MAX(updated_at) as updated_at'))
+                            ->from('locations')
+                            ->groupBy('location_finder_id');
+                    })
+                ->whereHas('location_finder.bus.bus_company', function($query) use ($company_id) {
+                        $query->where('id',$company_id);
+                    })
+            
+            ->orderBy('updated_at')
+            
+            ->get();
+        }else{
+            $locations = Location::with('location_finder.bus.bus_company')
+                ->whereIn('locations.updated_at', function($query)
                 {
                     $query->select(DB::raw('MAX(updated_at) as updated_at'))
                         ->from('locations')
@@ -120,12 +168,26 @@ class LocationController extends Controller
             ->orderBy('updated_at')
             
             ->get();
+        }
+
+
+        /*$locations = Location::with('location_finder.bus.bus_company')
+                ->whereIn('locations.updated_at', function($query)
+                {
+                    $query->select(DB::raw('MAX(updated_at) as updated_at'))
+                        ->from('locations')
+                        ->groupBy('location_finder_id');
+                })
+            
+            ->orderBy('updated_at')
+            
+            ->get();*/
 
         //return response()->json($locations);
 
-	   return response(view('bus_admin.xml_feed')->with('locations', $locations), 200, [
-	       'Content-Type' => 'application/xml'
-	    ]);
+       return response(view('bus_admin.xml_feed')->with('locations', $locations), 200, [
+           'Content-Type' => 'application/xml'
+        ]);
     }
 
     public function api_get_locations(Request $request)

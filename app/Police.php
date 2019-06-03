@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Police extends Model
 {
-    protected $fillable = ['address','username','role'];
+    protected $fillable = ['address','username','role','user_id'];
 
     public function user()
 	{

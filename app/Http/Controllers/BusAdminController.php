@@ -33,7 +33,7 @@ class BusAdminController extends Controller
         $av_speeds = (new LocationController())->getTotalAverageSpeed($company_id);
         $overall_av_speed = number_format($av_speeds["overall"],2);
         $today_av_speed = number_format($av_speeds["today"],2);
-        $total_penalties = (new PenaltyController())->getTotalPenalties($company_id);
+        $total_penalties = (new PenaltyController())->getTotalPenalties($company_id,null);
         $total_buses = (new BusController())->getTotalBuses($company_id);
 
         $buseswithHighestAvgSpeeds = $this->getBusesWithHighestAvgSpeed($company_id);

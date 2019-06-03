@@ -8,6 +8,7 @@ use App\Penalty;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Auth;
+use App\Bus_admin;
 
 class BusController extends Controller
 {
@@ -19,7 +20,9 @@ class BusController extends Controller
     public function index()
     {
         if (Auth::user()->category == "bus_admin") {
-            $company_id = Auth::user()->id;  
+            $company_id = Bus_admin::where('id',Auth::user()->id)
+                ->pluck('company_id')
+                ->first(); 
             $buses = Bus::join('bus_companies', 'bus_companies.id', '=', 'buses.bus_company_id')
                 ->leftjoin('location_finders', 'buses.id', '=', 'location_finders.bus_id')
                 ->leftjoin('locations', 'locations.location_finder_id', '=', 'location_finders.id')

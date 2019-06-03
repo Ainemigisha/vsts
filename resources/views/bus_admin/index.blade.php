@@ -7,7 +7,7 @@
     <div class="row ">
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
+                    <span class="info-box-icon bg-info elevation-1"></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">AVERAGE SPEED</span>
@@ -22,7 +22,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
+                    <span class="info-box-icon bg-info elevation-1"></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">AVERAGE SPEED <span class="text-secondary">(Today)</span>
@@ -38,7 +38,7 @@
             <!-- /.col -->
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
-                    <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
+                    <span class="info-box-icon bg-danger elevation-1"></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">PENALTIES</span>
@@ -55,7 +55,7 @@
 
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
-                    <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
+                    <span class="info-box-icon bg-success elevation-1"></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">NUMBER OF VEHICLES</span>
@@ -73,26 +73,6 @@
               <div class="card-header">
                 <h5 class="card-title">Statistics</h5>
 
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                  </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-wrench"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" class="dropdown-item">Action</a>
-                      <a href="#" class="dropdown-item">Another action</a>
-                      <a href="#" class="dropdown-item">Something else here</a>
-                      <a class="dropdown-divider"></a>
-                      <a href="#" class="dropdown-item">Separated link</a>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-tool" data-widget="remove">
-                    <i class="fa fa-times"></i>
-                  </button>
-                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

@@ -21,16 +21,23 @@
                     <th>Date of Clearance</th>
                     <th>Date of Creation</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 
             @foreach ($penalties as $penalty)
               <tr>
-                <td>{{$penalty->locationFinder->bus->bus_company->company_name}}</td>
-                <td>{{$penalty->locationFinder->bus->number_plate}}</td>
+                <td> {{$penalty->locationFinder->bus->bus_company->company_name}}</td>
+                <td><a href="/penalties/{{$penalty->id}}">{{$penalty->locationFinder->bus->number_plate}}</a></td>
+                @if ( $penalty->status != 'Provisional')
                 <td>{{$penalty->assigner->user->name}}</td>
                 <td>{{$penalty->assigned_date->toDayDateTimeString()}}</td>
+                @else
+                <td></td>
+                <td></td>
+                @endif
+                
                 <td>{{$penalty->place}}</td>
                 <td>{{$penalty->speed}}</td>
                 <td>{{$penalty->status}}</td>
@@ -54,6 +61,16 @@
                     
                   @endif
                 </td>
+                <td>
+                @if ($penalty->status != 'cleared' && Auth::user()->category == 'police')
+                  <form method="post" action="/penalty_reject">
+                    {{csrf_field()}}
+                    <input type="hidden" value="{{$penalty->id}}" name="penalty_id"/>
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                    </form>
+                    
+                  @endif
+                </td>
               </tr>
             @endforeach
 
@@ -70,6 +87,7 @@
                     <th>Cleared By</th>
                     <th>Date of Clearance</th>
                     <th>Date of Creation</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </tfoot>

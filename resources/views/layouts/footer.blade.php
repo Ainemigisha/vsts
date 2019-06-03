@@ -13,7 +13,7 @@
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('/plugins/jquery/jquery.js') }}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
@@ -40,7 +40,6 @@
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="/plugins/jquery/jquery.min.js"></script>
 <script src="{{ asset('/dist/js/pages/dashboard2.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -78,6 +77,7 @@
     console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
   });
 </script>
+@yield('script')
 
 </body>
 </html>

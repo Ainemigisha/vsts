@@ -13,4 +13,9 @@ class Bus_company extends Model
 		return $this->hasMany('App\Bus','bus_company_id');
 	}
 
+	public function adminId()
+	{
+		return $this->belongsTo('App\Bus_admin','id','company_id');
+	}
+
 }

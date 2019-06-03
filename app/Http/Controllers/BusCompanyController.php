@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bus_company;
+use App\User;
+use App\Bus_admin;
 
 class BusCompanyController extends Controller
 {
@@ -14,7 +16,18 @@ class BusCompanyController extends Controller
      */
     public function index()
     {
-        //
+        $all_companies = Bus_company::with('adminId.user')
+            ->orderby('updated_at','desc')
+            ->get();
+
+        $admins = User::with('bus_admin.company')
+            ->where('category','bus_admin')
+            ->orderby('updated_at','desc')
+            ->get();
+
+          //  return response()->json($all_companies);
+
+        return view('companies.index',compact('all_companies','admins'));
     }
 
     /**
@@ -35,7 +48,19 @@ class BusCompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+
+        $company = new Bus_company();
+        $company->company_name = $request->company_name;
+        $company->save();
+
+        $admin = new Bus_admin();
+        $admin->id = $request->admin_id;
+        $admin->company_id = $company->id;
+        $admin->save();
+
+        return redirect('/companies_form');
+
     }
 
     /**

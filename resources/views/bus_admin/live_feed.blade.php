@@ -2,12 +2,16 @@
 
 @section('title', 'Live Results')
 
-@section('style')
+@section('content')
+            <div id="map" ></div> 
+@endsection
+
+@section('map')
 <style type="text/css">
 #map {
-	position: initial !important;
+  position: initial !important;
 }
-	
+  
 </style>
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyBFej8wK0uBBxVPLgdD0z5yBPb5xsYLkcE&callback=initMap"></script>
@@ -15,23 +19,17 @@
 <script src="{{ asset('vendor/jquery.easing.1.3.js') }}"></script>
 <script src="{{ asset('vendor/markerAnimate.js') }}"></script>
 <script src="{{ asset('js/SlidingMarker.js') }}"></script>
-
-@endsection
-
-@section('content')
-				    <div id="map" ></div>	
-
     <script>
       var track_markers = []; // Create a marker array to hold your markers
 
-      var customLabel = {
+      /*var customLabel = {
         restaurant: {
           label: 'BUS'
         },
         bar: {
           label: 'B'
         }
-      };
+      };*/
 
         function initMap() {
 
@@ -49,7 +47,7 @@
               track_markers = [];          
               Array.prototype.forEach.call(markers, function(markerElem) {
                 var id = markerElem.getAttribute('id');
-                var name = markerElem.getAttribute('name');
+                var name = markerElem.getAttribute('bus_name');
                 var address = markerElem.getAttribute('address');
                 var type = markerElem.getAttribute('type');
                 var point = new google.maps.LatLng(
@@ -65,13 +63,18 @@
                 var text = document.createElement('text');
                 text.textContent = address
                 infowincontent.appendChild(text);
-                var icon = customLabel[type] || {};
+                var icon = 'icons8-bus-30-blue.png';
+                var flag = markerElem.getAttribute('flag');
+
+                if(flag == 1){
+                  icon = 'icons8-bus-20-red.png';
+                }
                 var marker = new SlidingMarker({
                   id: id,
                   map: map,
                   position: point,
                   label: icon.label,                  
-                  icon: '{{ asset('icons_bus_40.png') }}'
+                  icon: '{{ asset('+icon+') }}'
                 });
                 track_markers.push(marker);
                 marker.addListener('click', function() {
@@ -86,21 +89,27 @@
                 var markers = xml.documentElement.getElementsByTagName('marker');
                 Array.prototype.forEach.call(markers, function(markerElem) {
                   var id = markerElem.getAttribute('id');
+                  var flag = markerElem.getAttribute('flag');
                   var point = new google.maps.LatLng(
                       parseFloat(markerElem.getAttribute('lat')),
                       parseFloat(markerElem.getAttribute('lng')));
 
                   for (var i=0; i<track_markers.length; i++) {                    
                       if(track_markers[i].id == id) {
-                        track_markers[i].setDuration(1000);
+                        track_markers[i].setDuration(500);
                         track_markers[i].setEasing($.easing.easeInExpo);
+                        if(flag == 1 ) {
+                          track_markers[i].setIcon('{{ asset('icons8_bus_30_red.png') }}');
+                        } else {
+                          track_markers[i].setIcon('{{ asset('icons8_bus_30_blue.png') }}');                          
+                        }
                         track_markers[i].setPosition(point);
                       }
                   }
 
                 });
               });              
-            }, 5000);
+            }, 2000);
         }
 
 
